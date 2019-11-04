@@ -3,13 +3,36 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Webpack + React</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="src/style.css">
+  <title>Movie search</title>
 </head>
 
 <body>
- 
-  <script>
-  </script>
+  <form class="searchForm">
+    <input id='searchingTextInput' placeholder="searching title">
+    <button id='searchButton'>Search!</button>
+  </form>
+  <h1>Your results:</h1>
+  <div class='sortAndFilterForms'>
+    <form>
+      <select id="sortBySelect" id='sortSelect'>
+        <option value="" disabled selected>Sort results by...</option>
+        <option value="Title">Title</option>
+        <option value="Rating">Rating</option>
+        <option value="Release">Release</option>
+      </select>
+      <button id='SortBySelectButton'>Sort</button>
+    </form>
+    <form>
+      <input id='filterInput1' type="number" maxlength="4" max="2019" placeholder="min value">
+      <input id='filterInput2' type="number" maxlength="4" max="2019" placeholder="max value">
+      <button id='filterByReleaseButton'>Filter by release date</button>
+      <button id='filterByRatingButton'>Filter by rating</button>
+    </form>
+  </div>
+  <div id='list'></div>
+  <div id='endOfListInfo'></div>
 <script type="text/javascript" src="./index.bundle.js"></script></body>
 
 </html>
