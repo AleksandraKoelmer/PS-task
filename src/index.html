@@ -4,35 +4,125 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="src/style.css">
-  <title>Movie search</title>
+
+  <link rel="stylesheet" type="text/css" href="build/main.bundle.css">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans|VT323&display=swap" rel="stylesheet">
+  
+  <script src="https://kit.fontawesome.com/b91746c47d.js" crossorigin="anonymous"></script>
+  <title>Aleksandra Koelmer</title>
 </head>
 
 <body>
-  <form class="searchForm">
-    <input id='searchingTextInput' placeholder="searching title">
-    <button id='searchButton'>Search!</button>
-  </form>
-  <h1>Your results:</h1>
-  <div class='sortAndFilterForms'>
-    <form>
-      <select id="sortBySelect" id='sortSelect'>
-        <option value="" disabled selected>Sort results by...</option>
-        <option value="Title">Title</option>
-        <option value="Rating">Rating</option>
-        <option value="Release">Release</option>
-      </select>
-      <button id='SortBySelectButton'>Sort</button>
-    </form>
-    <form>
-      <input id='filterInput1' type="number" maxlength="4" max="2019" placeholder="min value">
-      <input id='filterInput2' type="number" maxlength="4" max="2019" placeholder="max value">
-      <button id='filterByReleaseButton'>Filter by release date</button>
-      <button id='filterByRatingButton'>Filter by rating</button>
-    </form>
+  <div class="menu">
+    <nav class='menu-buttons'>
+      <a href="#technologies">Technologie</a>
+      <a href="#projects">Projekty</a>
+      <a href="#about">O mnie</a>
+      <a href="#contact">Kontakt</a>
+    </nav>
   </div>
-  <div id='list'></div>
-  <div id='endOfListInfo'></div>
+    <section class="startView">
+
+
+
+      <div class="visual-container">
+        <svg viewBox="0 0 563 800" class="stroke-lines paralax">
+          <!-- Pipe #1 -->
+          <path fill="none" stroke="#11ff0d" stroke-width="10" stroke-linejoin="bevel" stroke-miterlimit="10" d="M572,0
+      c0,0-0.2,7.3,0.2,13.1C572.9,26.8,580.5,50,622,50c59,0,124,0,124,0s50.5-4,50.5,53s0,94,0,94s-7.5,45.5-41.5,45.5s-55,0-55,0
+      s-36.5-3.5-36.5,37s0,195,0,195S661.3,519,702,519c38,0,36.5,54,36.5,54v54.5c0,0,2.8,45-44.5,45c-43,0-46.5,0-46.5,0
+      S610.7,668,611,730c0.4,66.4,0.9,70,0.9,70" />
+          <!-- Pipe #2 -->
+          <path fill="none" stroke="#297d05" stroke-width="10" stroke-miterlimit="10" d="M527.5,0l0,42c0,0-3,41.5,42,41.5s112.5,0,112.5,0
+      s65-3.5,65,58.5s0,57,0,57v13.5c0,0-3.3,32.2,45.5,32c53.5-0.2,232,0,232,0s55.5-8,55.5,46s0,171,0,171s7.3,56.2-45.5,56
+      c-46-0.1-296,0-296,0s-57.8-7.5-56.5,53c1.4,65,0,102,0,102s4,51-54.5,51s-51,76.5-51,76.5" />
+          <!-- Pipe #3 -->
+          <path fill="none" stroke="#e7ff0d" stroke-width="10" stroke-miterlimit="10" d="M550,0v90c0,0-3.3,41.4,52.5,41
+      c51-0.4,143.8,0,143.8,0s53.2-5,53.2,41s-6,68,39,68s183.5,0,183.5,0s55-4.3,55,50c0,56,0,175,0,175s0,43-61,43c-54,0-265,0-265,0
+      s-47.7-4.7-47,52.5c0.7,61,0,105,0,105s7.3,45-66,45c-77.5,0-45.5,0-45.5,0s-42.5-6-42.5,40.5s0,49,0,49" />
+        </svg>
+      </div>
+  
+
+  <div class="content">
+    <img class='main-image' src="./images/ola.jpg">
+    <div class="introduction">
+      <h1>Aleksandra Koelmer</h1>
+      <h3>Junior frontend developer</h3>
+    </div>
+  </div>
+
+
+  </section>
+  <section class="technologies" id='technologies'>
+    <div class="wrapper">
+
+      <img id="slide1" src="/images/html-logo.png" />
+      <img id="slide2" src="/images/css-logo.png" />
+      <img id="slide3" src="/images/js-logo.png" />
+      <img id="slide4" src="/images/react-logo.png" />
+    </div>
+
+  </section>
+  <section class="projects" id='projects'>
+    <h1> Projekty</h1>
+    <div class="projects-wrapper">
+      <div class='project-container'>
+        <img class='project-image' src="/images/reflex.jpg" />
+        <div class="project-description">
+          <h2>Reflex game</h2>
+         <p>Gra napisana w JavaScript bez użycia bibliotek.</p>
+        </div>
+      </div>
+      <div class='project-container'>
+        <img class='project-image' src="/images/search.jpg" />
+        <div class="project-description">
+          <h2>Wyszukiwarka</h2>
+         <p>Wyszukiwanie, sortowanie i filtorwanie danych przy użyciu React.</p>
+        </div>
+      </div>
+      <div class='project-container'>
+        <img class='project-image' src="/images/landingPage.jpg" />
+        <div class="project-description">
+          <h2>Landing page</h2>
+          <p>Prosta strona typu landing page.</p>
+        </div>
+      </div>
+      <div class='project-container'>
+        <img class='project-image' src="/images/gh-logo.png" />
+        <div class="project-description">
+          <h2>Pozostałe</h2>
+          <p>Jeśli ciekawią Cię moje realizacje-zapraszam do zapoznania się z moim kontem w serwisie GitHub.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section  id='about'>
+    <div class="about">
+    <h1> O mnie</h1>
+    <div class="desc">
+      <p>Najważniejszymi wartościami są dla mnie otwartość, współpraca, emocje i działanie - zawsze w zgodzie ze
+        sobą. Jeśli poszukujesz osoby która chce wnieść do zespołu swój potencjał razem z osobowścią i zapałem do pracy
+        zapraszam do części strony w której przedstawiam swoje projekty.</p>
+      <p>Swoją przygodę z programowaniem zaczęłam nieco ponad rok temu - z ciekawości - teraz jestem ciekawa jak to by
+        było
+        móc pracować jako programista i wierzę że dzięki mojej upartości się uda :).
+        W zeszłym roku ukończyłam kurs programowania obejmujący swoim zakresem takie zagadnienia jak HTML, CSS,
+        JavaScript, ExpressJS, MongoDB, React czy testy jednostkowe. W trakcie kursu miałam także okazję
+        wzięcia udziału w projekcie zespołowym. Obecnie chciałabym wystartować w pracy - tak, aby uzupełniając
+        umiejętności które już mam zacząć robić coś "na serio".</p>
+      <p>Jeśli uważasz że moglibyśmy razem tworzyć coś fantastycznego z nieciepliwością czekam na wiadomość :)</p>
+    </div>
+
+
+  </div>
+  </section>
+  <section class="contact" id='contact'>
+    <a href=https://www.linkedin.com/in/aleksandra-koelmer-685294157> <i class="fab fa-linkedin"></i></a>
+    <a href="mailto:aleksandra.koelmer@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href=https://github.com/AleksandraKoelmer> <i class="fab fa-github"></i></a>
+  </section>
+
 </body>
 
 </html>

@@ -1,306 +1,312 @@
 
-let url = 'http://www.omdbapi.com/?apikey=2065d8a0&';
-let titles = [];
-let pages = [];
-let allInfo = [];
-let finalList = [];
-let loadpage = 1;
 
-document.getElementById("searchButton").addEventListener("click", searchingFormOnSubmit);
 
-function searchingFormOnSubmit(e) {
-  e.preventDefault();
-  clearInfo();
-  allInfo = [];
-  let searchingText = document.getElementById('searchingTextInput').value;
+document.addEventListener('scroll',function (event) {
 
-  fetch(url + 's=' + searchingText)
-    .then(resp => {
-      return resp.json();
-    })
-    .then(resp => {
-      let numberOfPages = Math.ceil(resp.totalResults / 10);
-      return getAllTitles(numberOfPages, searchingText);
-    })
-    .then(() => {
-      return getAllInfoAboutTitles();
-    })
-    .then(() => splitTitlesIntoPages())
-    .then(() => {
-      if (pages.length > 0) {
-        createTable(0);
-      }
-      else {
-        thereIsNoResults();
-      };
+  
+})
+
+window.addEventListener('load', (event) => {
+   
+      document.querySelector('.paralax').classList.add('on');
+    // document.querySelector('.paralax.small').classList.add('on');
+    
+  });
+
+ 
+
+/* 
+
+let windowW = 100;
+let windowH = 100;
+let isLoaded = false;
+let glitch;
+let imgSrc ="https://upload.wikimedia.org/wikipedia/commons/3/32/Collage_of_Six_Cats-03.JPG";
+
+function setup() {
+    console.log('eeeeeeeeeeeee')
+    background(0);
+    createCanvas(windowW, windowH);
+    loadImage(imgSrc, function(img) {
+        glitch = new Glitch(img);
+        isLoaded = true;
     });
-};
+}
 
-function clearInfo() {
-  document.getElementById('list').innerHTML = "";
-  document.getElementById('endOfListInfo'), innerHTML = '';
-  titles = [];
-  pages = [];
-  finalList = [];
-  loadpage = 1;
-};
+function draw() {
+    clear();
+    background(0);
 
-function getAllTitles(numberOfPages, searchingText) {
-  let promiseArray = [];
-  for (let i = 1; i <= numberOfPages; i++) {
-    let dataUrlLoop = url + 's=' + searchingText + '&page=' + i;
-    promiseArray
-      .push(fetch(dataUrlLoop)
-        .then(response => { return response.json() })
-        .then(data => {
-          data.Search.forEach(title => {
-            titles.push(title.Title);
-          })
+    if (isLoaded) {
+        glitch.show();
+    }
+
+    // fill(255, 255, 255);
+    // textSize(14);
+    // text('FPS: ' + floor(frameRate()), 20, 30);
+
+}
+
+class Glitch {
+    constructor(img) {
+        this.channelLen = 4;
+        this.imgOrigin = img;
+        this.imgOrigin.loadPixels();
+        this.copyData = [];
+        this.flowLineImgs = [];
+        this.shiftLineImgs = [];
+        this.shiftRGBs = [];
+        this.scatImgs = [];
+        this.throughFlag = true;
+        this.copyData = new Uint8ClampedArray(this.imgOrigin.pixels);
+
+        // flow line
+        for (let i = 0; i < 1; i++) {
+            let o = {
+                pixels: null,
+                t1: floor(random(0, 1000)),
+                speed: floor(random(4, 24)),
+                randX: floor(random(24, 80))
+            };
+            this.flowLineImgs.push(o);
         }
-        ));
-  };
-  return Promise.all(promiseArray);
-};
 
-function getAllInfoAboutTitles() {
-  let promiseArray = [];
-
-  titles.forEach(title => {
-    promiseArray
-      .push(fetch(url + 't=' + title)
-        .then(response => { return response.json() })
-        .then(data => {
-          allInfo.push(data);
+        // shift line
+        for (let i = 0; i < 6; i++) {
+            let o = null;
+            this.shiftLineImgs.push(o);
         }
-        ));
-  });
-  return Promise.all(promiseArray);
-};
 
-function splitTitlesIntoPages() {
-  allInfo.forEach((value) => {
-    if (!finalList.some(x => (x.Title === value.Title && x.Plot === value.Plot && x.Year === value.Year))) {
-      finalList.push(value)
-    };
-  });
+        // shift RGB
+        for (let i = 0; i < 1; i++) {
+            let o = null;
+            this.shiftRGBs.push(o);
+        }
 
-  let numberOfPages = Math.ceil(finalList.length / 12)
-  for (let i = numberOfPages; i > 0; i--) {
-    let page = []
-    for (let j = 0; j < 12; j++) {
-      page.push(finalList.shift())
-    };
-    pages.push(page)
-  };
-  return pages
-};
+        // scat imgs
+        for (let i = 0; i < 3; i++) {
+            let scatImg = {
+                img: null,
+                x: 0,
+                y: 0
+            };
+            this.scatImgs.push(scatImg);
+        }
+    }
 
-function createTable(index) {
-  const list = document.getElementById('list');
-  const table = document.createElement('div');
+    replaceData(destImg, srcPixels) {
+        for (let y = 0; y < destImg.height; y++) {
+            for (let x = 0; x < destImg.width; x++) {
+                let r, g, b, a;
+                let index;
+                index = (y * destImg.width + x) * this.channelLen;
+                r = index;
+                g = index + 1;
+                b = index + 2;
+                a = index + 3;
+                destImg.pixels[r] = srcPixels[r];
+                destImg.pixels[g] = srcPixels[g];
+                destImg.pixels[b] = srcPixels[b];
+                destImg.pixels[a] = srcPixels[a];
+            }
+        }
+        destImg.updatePixels();
+    }
 
-  pages[index].map(function (result) {
-    if (result) {
-      const singleResult = document.createElement('div');
-      singleResult.setAttribute('id', 'singleResult');
+    flowLine(srcImg, obj) {
 
-      const poster = document.createElement('img');
-      if (result.Poster != "N/A")
-        poster.setAttribute('src', result.Poster);
-      else {
-        poster.setAttribute('src', "http://www.maltreting.pl/wp-content/uploads/2015/07/antologia_tn-1024x640.jpg");
-      }
-      singleResult.appendChild(poster);
+        let destPixels,
+            tempY;
+        destPixels = new Uint8ClampedArray(srcImg.pixels);
+        obj.t1 %= srcImg.height;
+        obj.t1 += obj.speed;
+        //tempY = floor(noise(obj.t1) * srcImg.height);
+        tempY = floor(obj.t1);
+        for (let y = 0; y < srcImg.height; y++) {
+            if (tempY === y) {
+                for (let x = 0; x < srcImg.width; x++) {
+                    let r, g, b, a;
+                    let index;
+                    index = (y * srcImg.width + x) * this.channelLen;
+                    r = index;
+                    g = index + 1;
+                    b = index + 2;
+                    a = index + 3;
+                    destPixels[r] = srcImg.pixels[r] + obj.randX;
+                    destPixels[g] = srcImg.pixels[g] + obj.randX;
+                    destPixels[b] = srcImg.pixels[b] + obj.randX;
+                    destPixels[a] = srcImg.pixels[a];
+                }
+            }
+        }
+        return destPixels;
+    }
 
-      const desc = document.createElement('div');
-      desc.setAttribute('id', 'descripion');
+    shiftLine(srcImg) {
 
-      const title = document.createElement('h2');
-      title.appendChild(document.createTextNode(result.Title));
-      desc.appendChild(title);
+        let offsetX;
+        let rangeMin, rangeMax;
+        let destPixels;
+        let rangeH;
 
+        destPixels = new Uint8ClampedArray(srcImg.pixels);
+        rangeH = srcImg.height;
+        rangeMin = floor(random(0, rangeH));
+        rangeMax = rangeMin + floor(random(1, rangeH - rangeMin));
+        offsetX = this.channelLen * floor(random(-40, 40));
+
+        for (let y = 0; y < srcImg.height; y++) {
+            if (y > rangeMin && y < rangeMax) {
+                for (let x = 0; x < srcImg.width; x++) {
+                        let r, g, b, a;
+                        let r2, g2, b2, a2;
+                        let index;
+
+                        index = (y * srcImg.width + x) * this.channelLen;
+                        r = index;
+                        g = index + 1;
+                        b = index + 2;
+                        a = index + 3;
+                        r2 = r + offsetX;
+                        g2 = g + offsetX;
+                        b2 = b + offsetX;
+                        destPixels[r] = srcImg.pixels[r2];
+                        destPixels[g] = srcImg.pixels[g2];
+                        destPixels[b] = srcImg.pixels[b2];
+                        destPixels[a] = srcImg.pixels[a];
+                }
+            }
+        }
+        return destPixels;
+    }
+
+    shiftRGB(srcImg) {
+
+        let randR, randG, randB;
+        let destPixels;
+        let range;
+
+        range = 16;
+        destPixels = new Uint8ClampedArray(srcImg.pixels);
+        randR = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * this.channelLen;
+        randG = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * this.channelLen;
+        randB = (floor(random(-range, range)) * srcImg.width + floor(random(-range, range))) * this.channelLen;
+
+        for (let y = 0; y < srcImg.height; y++) {
+            for (let x = 0; x < srcImg.width; x++) {
+                let r, g, b, a;
+                let r2, g2, b2, a2;
+                let index;
+
+                index = (y * srcImg.width + x) * this.channelLen;
+                r = index;
+                g = index + 1;
+                b = index + 2;
+                a = index + 3;
+                r2 = (r + randR) % srcImg.pixels.length;
+                g2 = (g + randG) % srcImg.pixels.length;
+                b2 = (b + randB) % srcImg.pixels.length;
+                destPixels[r] = srcImg.pixels[r2];
+                destPixels[g] = srcImg.pixels[g2];
+                destPixels[b] = srcImg.pixels[b2];
+                destPixels[a] = srcImg.pixels[a];
+            }
+        }
+
+        return destPixels;
+    }
+
+    getRandomRectImg(srcImg) {
+        let startX;
+        let startY;
+        let rectW;
+        let rectH;
+        let destImg;
+        startX = floor(random(0, srcImg.width - 30));
+        startY = floor(random(0, srcImg.height - 50));
+        rectW = floor(random(30, srcImg.width - startX));
+        rectH = floor(random(1, 50));
+        destImg = srcImg.get(startX, startY, rectW, rectH);
+        destImg.loadPixels();
+        return destImg;
+    }
+
+    show() {
       
-      if (result.Year && result.Year != 'N/A') {
-        title.appendChild(document.createTextNode('  ' + '(' + result.Year + ')' + ' '));
-      }
-      else {
-        title.appendChild(document.createTextNode('(info about release date unavailable)'));
-      }
-     
+        // restore the original state
+        this.replaceData(this.imgOrigin, this.copyData);
 
-      const runtime = document.createElement('h5');
-      if (result.Runtime && result.Runtime != 'N/A') {
-        runtime.appendChild(document.createTextNode('Runtime: ' + result.Runtime));
-      }
-      else {
-        runtime.appendChild(document.createTextNode('info about runtime unavailable'))
-      }
+        // sometimes pass without effect processing
+        let n = floor(random(100));
+        if (n > 75 && this.throughFlag) {
+            this.throughFlag = false;
+            setTimeout(() => {
+                this.throughFlag = true;
+            }, floor(random(40, 400)));
+        }
+        if (!this.throughFlag) {
+            push();
+            translate((width - this.imgOrigin.width) / 2, (height - this.imgOrigin.height) / 2);
+            image(this.imgOrigin, 0, 0);
+            pop();
+            return;
+        }
 
-      desc.appendChild(runtime)
+        // flow line
+        this.flowLineImgs.forEach((v, i, arr) => {
+            arr[i].pixels = this.flowLine(this.imgOrigin, v);
+            if (arr[i].pixels) {
+                this.replaceData(this.imgOrigin, arr[i].pixels);
+            }
+        })
 
-      const plot = document.createElement('div');
-      let ellipsis = '...';
-      let plotDescription;
+        // shift line
+        this.shiftLineImgs.forEach((v, i, arr) => {
+            if (floor(random(100)) > 50) {
+                arr[i] = this.shiftLine(this.imgOrigin);
+                this.replaceData(this.imgOrigin, arr[i]);
+            } else {
+                if (arr[i]) {
+                    this.replaceData(this.imgOrigin, arr[i]);
+                }
+            }
+        })
 
+        // shift rgb
+        this.shiftRGBs.forEach((v, i, arr) => {
+            if (floor(random(100)) > 65) {
+                arr[i] = this.shiftRGB(this.imgOrigin);
+                this.replaceData(this.imgOrigin, arr[i]);
+            }
+        })
 
-      if (result.Plot && result.Plot.length > 100) {
-        plotDescription = result.Plot.substring(0, 100) + ellipsis;
-      }
-      else if (result.Plot && result.Plot.length < 100) {
-        plotDescription = result.Plot;
-      }
-      else {
-        plotDescription = 'info about plot unavailable';
-      }
+        push();
+        translate((width - this.imgOrigin.width) / 2, (height - this.imgOrigin.height) / 2);
+        image(this.imgOrigin, 0, 0);
+        pop();
 
-      plot.appendChild(document.createTextNode(plotDescription));
-      desc.appendChild(plot);
+        // scat image
+        this.scatImgs.forEach((obj) => {
+            push();
+            translate((width - this.imgOrigin.width) / 2, (height - this.imgOrigin.height) / 2);
+            if (floor(random(100)) > 80) {
+                obj.x = floor(random(-this.imgOrigin.width * 0.3, this.imgOrigin.width * 0.7));
+                obj.y = floor(random(-this.imgOrigin.height * 0.1, this.imgOrigin.height));
+                obj.img = this.getRandomRectImg(this.imgOrigin);
+            }
+            if (obj.img) {
+                image(obj.img, obj.x, obj.y);
+            }
+            pop();
+        })
 
-      const rating = document.createElement('span');
-      if (result.Ratings && result.Ratings[0]) {
-        rating.appendChild(document.createTextNode(result.Ratings[0].Value));
-      }
-      else {
-        rating.appendChild(document.createTextNode('info about ratings unavailable'));
-      }
-      desc.appendChild(rating);
-      singleResult.appendChild(desc);
-
-      const star = document.createElement('i');
-      star.setAttribute('class', 'fa fa-star');
-      star.setAttribute('style', 'color:grey');
-      title.appendChild(star);
-      if (result.Awards && result.Awards != 'N/A') {
-        star.setAttribute('style', 'color:yellow');
-      }
-      table.appendChild(singleResult);
-    };
-    list.appendChild(table);
-  });
-}
-
-function thereIsNoResults() {
-  alert('no results found!');
-}
-
-window.addEventListener('scroll', scrollControl);
-function scrollControl() {
-  var d = document.documentElement;
-  var offset = d.scrollTop + window.innerHeight;
-  var height = d.offsetHeight;
-  if (offset >= (height) && allInfo.length > 0) {
-    createTable(loadpage)
-    if ((loadpage + 1) < pages.length) {
-      loadpage += 1
     }
-    else {
-      removeScrollListener()
-      noMoreResultsAlert()
-    }
-  }
-};
 
-function removeScrollListener() {
-  window.removeEventListener('scroll', scrollControl);
-};
-
-function noMoreResultsAlert() {
-  document.getElementById('endOfListInfo').innerHTML = 'WoW, you watched them all';
-};
-
-let sortBySelectButton = document.getElementById('SortBySelectButton');
-sortBySelectButton.addEventListener('click', sort);
-
-function sort(e) {
-  e.preventDefault()
-  let selectedValue = document.getElementById('sortBySelect').value;
-  if (selectedValue === 'Title') {
-    allInfo.sort((a, b) => a.Title.localeCompare(b.Title));
-    regen();
-  }
-  else if (selectedValue === 'Release') {
-    let titlesWithRelease = allInfo.filter((element) => {
-      return (element.Year)
-    });
-    let titlesWithoutRelease = allInfo.filter((element) => {
-      return (!element.Year)
-    });
-    titlesWithRelease.sort((a, b) => parseFloat(b.Year.slice(0, 4)) - parseFloat(a.Year.slice(0, 4)));
-    allInfo = [];
-
-    titlesWithRelease.forEach(element => {
-      allInfo.push(element);
-    });
-    titlesWithoutRelease.forEach(element => {
-      allInfo.push(element);
-    })
-    regen();
-  }
-  else if (selectedValue === 'Rating') {
-    let titlesWithRatings = allInfo.filter((element) => {
-      return (element.Ratings && element.Ratings[0] && element.Ratings[0].Value)
-    });
-    let titlesWithoutRating = allInfo.filter((element) => {
-      return (!element.Ratings || !element.Ratings[0] || !element.Ratings[0].Value)
-    });
-    titlesWithRatings.sort((a, b) => parseFloat(b.Ratings[0].Value.slice(0, 3)) - parseFloat(a.Ratings[0].Value.slice(0, 3)));
-    allInfo = [];
-    titlesWithRatings.forEach(element => {
-      allInfo.push(element);
-    });
-    titlesWithoutRating.forEach(element => {
-      allInfo.push(element);
-    });
-    regen();
-  };
-};
-
-let filterButtonRelease = document.getElementById('filterByReleaseButton');
-filterButtonRelease.addEventListener('click', filterByRelease);
-let filterInput1 = document.getElementById('filterInput1');
-let filterInput2 = document.getElementById('filterInput2');
-
-function regen() {
-  clearInfo();
-  splitTitlesIntoPages();
-  createTable(0);
-  window.addEventListener('scroll', scrollControl);
 }
 
-function filterByRelease(e) {
-  e.preventDefault();
-  if (allInfo[0] && (filterInput1.value || filterInput2.value)) {
-    const storage = allInfo;
-    let filtered = allInfo.filter((el) => {
-      return (parseFloat(el.Year) >= parseFloat(filterInput1.value) && parseFloat(el.Year) <= parseFloat(filterInput2.value))
-    })
-    allInfo = filtered;
-    regen();
-    allInfo = storage;
-  }
-}
 
-let filterButtonRating = document.getElementById('filterByRatingButton');
-filterButtonRating.addEventListener('click', filterByRating);
 
-function filterByRating(e) {
-  e.preventDefault();
-  if (allInfo[0] && (filterInput1.value || filterInput2.value)) {
-    const storage = allInfo;
 
-    let titlesWithRatings = allInfo.filter((element) => {
-      return (element.Ratings && element.Ratings[0] && element.Ratings[0].Value)
-    })
 
-    allInfo = [];
-    titlesWithRatings.forEach(element => {
-      allInfo.push(element);
-    })
-    let filtered = allInfo.filter((el) => {
-      return (parseFloat(el.Ratings[0].Value) >= parseFloat(filterInput1.value) && parseFloat(el.Ratings[0].Value) <= parseFloat(filterInput2.value))
-    })
-    allInfo = filtered;
-    regen();
-    allInfo = storage;
-  }
-}
+
+  */

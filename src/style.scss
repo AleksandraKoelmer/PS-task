@@ -1,0 +1,281 @@
+:root {
+  --background-dark: rgb(32, 32, 32);
+  --background-light: rgb(48, 48, 48);
+
+  --text-dark1: rgb(89, 255, 56);
+  --text-dark2: rgb(56, 199, 0);
+
+  --color1: #11ff0d;
+  --color2: #297d05;
+  --color3: #e7ff0d;
+
+  --headers: "VT323", monospace;
+  --text: "PT Sans", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+    background-color: var(--background-dark);
+  }
+
+h1 {
+  font-size: 45px;
+}
+
+h1,h2,h3,h4,h5,h6 , a{
+  font-family: var(--headers);
+  color: var(--text-dark2);
+}
+p{
+  font-family: var(--text);
+  color: var(--text-dark2);
+}
+
+
+.menu {
+ 
+  margin: auto;
+  width: 100%;
+}
+
+.menu-buttons {
+  font-size: 20px;
+  padding: 30px;
+  position: relative;
+  background-color: var(--background-dark);
+  z-index: 1;
+}
+
+.menu-buttons a {
+  width: 100px;
+  padding: 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.menu-buttons a:hover {
+  background-color: var(--text-dark1);
+  color: var(--background-light);
+  font-weight: bold;
+}
+
+
+.startView{
+    background-color: var(--background-light);
+}
+.introduction {
+    
+  position: absolute;
+  left: 610px;
+  top: 340px;
+}
+.main-image {
+  filter: grayscale(100%);
+  max-width: 200px;
+  position: absolute;
+  left: 350px;
+  top:300px;
+}
+
+.visual-container {
+  width: 503px;
+  height: 720px;
+  position: relative;
+}
+
+.paralax {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 820px;
+  width: 503px;
+  margin: 0 auto;
+  z-index: 0;
+  overflow: visible;
+}
+
+.paralax path,
+.paralax polyline {
+  fill: none;
+  stroke-dasharray: 3000px;
+  stroke-dashoffset: 3000px;
+  transition: 5s stroke-dashoffset ease-in;
+}
+
+.paralax.on path,
+.paralax.on polyline {
+  stroke-dashoffset: 0;
+}
+
+html[data-useragent*="Trident"] svg.paralax path,
+html[data-useragent*="Trident"] svg.paralax polyline {
+  stroke-dashoffset: 0;
+  transition: none;
+}
+
+.technologies {
+  background-color: var(--background-dark);
+  padding: 50px;
+}
+
+
+.wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100px;
+}
+
+#slide1 {
+  position: absolute;
+  left: 110%;
+  width: 100px;
+  height: 100px;
+
+  -webkit-animation: slide1 1s forwards;
+  -webkit-animation-delay: 3s;
+  animation: slide1 1s forwards;
+  animation-delay: 3s;
+}
+
+@keyframes slide1 {
+  100% {
+    left: 15%;
+  }
+}
+
+#slide2 {
+  position: absolute;
+  left: 110%;
+  width: 100px;
+  height: 100px;
+
+  -webkit-animation: slide2 1s forwards;
+  -webkit-animation-delay: 4s;
+  animation: slide2 1s forwards;
+  animation-delay: 4s;
+}
+
+@keyframes slide2 {
+  100% {
+    left: 35%;
+  }
+}
+
+#slide3 {
+  position: absolute;
+  left: 110%;
+  width: 100px;
+  height: 100px;
+
+  -webkit-animation: slide3 1s forwards;
+  -webkit-animation-delay: 5s;
+  animation: slide3 1s forwards;
+  animation-delay: 5s;
+}
+
+@keyframes slide3 {
+  100% {
+    left: 55%;
+  }
+}
+#slide4 {
+  position: absolute;
+  left: 110%;
+  width: 100px;
+  height: 100px;
+
+  -webkit-animation: slide4 1s forwards;
+  -webkit-animation-delay: 6s;
+  animation: slide4 1s forwards;
+  animation-delay: 6s;
+}
+
+@keyframes slide4 {
+  100% {
+    left: 75%;
+  }
+}
+
+//Section projects
+.projects {
+  background-color: var(--background-light);
+  h1 {
+    width: 75%;
+    margin: auto;
+    padding: 40px 20px 0 20px;
+  }
+}
+
+.projects-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 30px;
+}
+
+.project-container {
+  background-color: var(--background-dark);
+  border-radius: 5px;
+  display: flex;
+  margin: 30px;
+  padding: 15px;
+  width: 30%;
+  border: inset 3px var(--color1);
+  height: 200px;
+}
+
+.project-image {
+  max-height: 150px;
+  max-width: 180px;
+  margin: auto 10px;
+}
+
+.project-description {
+  padding: 10px;
+  width: 100%;
+  margin: auto 10px;
+}
+
+//Section about
+
+.about {
+  line-height: 25px;
+  margin: 30px auto 0;
+  padding: 20px;
+  width: 75%;
+}
+
+.desc {
+  margin-top: 20px;
+  text-align: justify;
+  text-justify: inter-word;
+  text-indent: 15px;
+}
+
+
+//Section contact
+.contact {
+  text-align: center;
+}
+
+.fa-envelope {
+  color: var(--color3);
+}
+.fa-linkedin {
+  color: var(--color2);
+}
+.fa-github {
+  color: var(--color1);
+}
+
+i {
+  font-size: 45px;
+  margin: 20px 40px;
+}

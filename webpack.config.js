@@ -1,44 +1,43 @@
 const path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-module.exports = (env) => {
-  return {
-    mode: env,
-    entry: './src/index.js',
-    output: {
-      path: path.resolve(__dirname, 'build'),
-      filename: './index.bundle.js'
+module.exports = {
+  entry: ['./src/index.js', './src/style.scss'],
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js'
+  },
+  module: {
+    loaders: [{
+      loader: 'babel-loader',
+      test: /\.js$/,
+      exclude: /node_modules/
     },
-    module: {
-      rules: [{
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: "babel-loader",
-          options: {
-            plugins: env !== 'production' ? ["react-hot-loader/babel"] : []
-}
-        },
-        {
-          test: /\.css$/,
-          use: [{
-              loader: 'style-loader'
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[local]'
-              }
-            }
-          ]
-        }
-      ]
+    {
+      test: /\.css$/,
+      loader: ExtractTextPlugin.extract({
+      loader: 'css-loader?importLoaders=1',
+      }),
     },
-
-    plugins: [new HtmlWebpackPlugin({
+    {
+    test: /\.(sass|scss)$/,
+    loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+    }
+  ]},
+  plugins: [
+   new HtmlWebpackPlugin({
       template: 'src/index.html',
       filename: 'index.html',
       inject: 'body'
-    })]
-
+    }),
+    new ExtractTextPlugin({
+      filename: './[name].bundle.css',
+      allChunks: true,
+    })
+  ],
+  devServer: {
+    port: 8080,
+    contentBase: './build',
+    inline: true //automatyczny update
   }
-};
+}
