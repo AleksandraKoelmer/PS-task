@@ -1,3 +1,34 @@
+//variables & general
+/* breakpoints */
+$sm-width: 767px;
+
+$lg-width: 992px;
+$xl-width: 1024px;
+
+@mixin sm {
+  @media (max-width: #{$sm-width}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$sm-width + 1px}) and (max-width: #{$xl-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$xl-width}) {
+    @content;
+  }
+}
+
+@mixin lgxl {
+  @media (min-width: #{$sm-width + 1px}) {
+    @content;
+  }
+}
+
 :root {
   --background-dark: rgb(32, 32, 32);
   --background-light: rgb(48, 48, 48);
@@ -23,6 +54,9 @@ body {
 
 h1 {
   font-size: 45px;
+  @include sm{
+    font-size: 25px;
+  }
 }
 
 h1,
@@ -32,13 +66,15 @@ h4,
 h5,
 h6,
 a {
-  font-family: var(--headers);
   color: var(--text-dark2);
+  font-family: var(--headers);
 }
 p {
-  font-family: var(--text);
   color: var(--text-dark2);
+  font-family: var(--text);
 }
+
+//menu
 
 .menu {
   margin: auto;
@@ -46,60 +82,113 @@ p {
 }
 
 .menu-buttons {
+  background-color: var(--background-dark);
   font-size: 20px;
   padding: 30px;
   position: relative;
-  background-color: var(--background-dark);
   z-index: 1;
+  @include sm{
+    padding:15px;
+    
+  }
+  
 }
 
 .menu-buttons a {
-  width: 100px;
+  border-radius: 5px;
   padding: 20px;
   text-decoration: none;
-  border-radius: 5px;
   transition: 0.5s;
+  width: 100px;
+  @include sm{
+    min-width: 20%;
+    margin: 15px;
+  }
+ 
 }
 
 .menu-buttons a:hover {
   background-color: var(--text-dark1);
   color: var(--background-light);
   font-weight: bold;
+ 
 }
+
+//start view
 
 .startView {
   background-color: var(--background-light);
 }
 .introduction {
+  left: calc(600px + 5%);
   position: absolute;
-  left: calc(740px);
   top: 340px;
+  @include lg {
+    left: calc(340px + 5%);
+  }
+  @include sm {
+    display: inline-block;
+    position: relative;
+    left: calc(10% + 120px);
+    top: -120px;
+  }
 }
-.main-image {
-  filter: grayscale(100%);
-  max-width: 200px;
+
+.canva {
+  left: 15%;
+  max-width: 250px;
   position: absolute;
-  left: 350px;
   top: 300px;
+  @include lg {
+    left: 0;
+  }
+  @include sm {
+    display: none;
+  }
+}
+
+.intro-photo-sm {
+  max-width: 120px;
+  position: absolute;
+  display: inline;
+  top: 120px;
+  left: calc(5px + 5%);
+  @include lg {
+    display: none;
+  }
+  @include xl {
+    display: none;
+  }
 }
 
 .visual-container {
-  width: 503px;
   height: 720px;
   position: relative;
+  width: 503px;
+  left: 5%;
+  @include lg {
+    left: calc(-250px + 5%);
+  }
+  @include sm {
+    height: 200px;
+    width: 80%;
+  }
 }
 
 .paralax {
+  height: 820px;
+  margin: 0 auto;
+  overflow: visible;
   position: absolute;
   top: -50px;
   right: 0;
   bottom: 0;
-  left: 25%;
-  height: 820px;
+  left: -10%;
   width: 503px;
-  margin: 0 auto;
   z-index: 0;
-  overflow: visible;
+  @include sm {
+    display: none;
+  }
 }
 
 .paralax path,
@@ -115,15 +204,14 @@ p {
   stroke-dashoffset: 0;
 }
 
-html[data-useragent*="Trident"] svg.paralax path,
-html[data-useragent*="Trident"] svg.paralax polyline {
-  stroke-dashoffset: 0;
-  transition: none;
-}
+//technologies
 
 .technologies {
-  background-color: var(--background-dark);
+  // background-color: var(--background-dark);
   padding: 50px;
+  @include sm {
+    padding: 15px;
+  }
 }
 
 .wrapper {
@@ -133,84 +221,121 @@ html[data-useragent*="Trident"] svg.paralax polyline {
   height: 100px;
 }
 
-#slide1 {
+.slide {
   position: absolute;
   left: 110%;
   width: 100px;
-  height: 100px;
+  height: 100%;
+  @include sm{
+    max-width: 25%;
+    max-height: 75%;
+  }
+}
 
+#slide1 {
   -webkit-animation: slide1 1s forwards;
   -webkit-animation-delay: 3s;
   animation: slide1 1s forwards;
   animation-delay: 3s;
 }
 
-@keyframes slide1 {
-  100% {
-    left: 15%;
-  }
-}
-
 #slide2 {
-  position: absolute;
-  left: 110%;
-  width: 100px;
-  height: 100px;
-
   -webkit-animation: slide2 1s forwards;
   -webkit-animation-delay: 4s;
   animation: slide2 1s forwards;
   animation-delay: 4s;
 }
 
-@keyframes slide2 {
-  100% {
-    left: 35%;
-  }
-}
-
 #slide3 {
-  position: absolute;
-  left: 110%;
-  width: 100px;
-  height: 100px;
-
   -webkit-animation: slide3 1s forwards;
   -webkit-animation-delay: 5s;
   animation: slide3 1s forwards;
   animation-delay: 5s;
 }
 
-@keyframes slide3 {
-  100% {
-    left: 55%;
-  }
-}
 #slide4 {
-  position: absolute;
-  left: 110%;
-  width: 100px;
-  height: 100px;
-
   -webkit-animation: slide4 1s forwards;
   -webkit-animation-delay: 6s;
   animation: slide4 1s forwards;
   animation-delay: 6s;
 }
 
-@keyframes slide4 {
-  100% {
-    left: 75%;
+@include xl {
+  @keyframes slide1 {
+    100% {
+      left: 15%;
+    }
+  }
+  @keyframes slide2 {
+    100% {
+      left: 35%;
+    }
+  }
+  @keyframes slide3 {
+    100% {
+      left: 55%;
+    }
+  }
+  @keyframes slide4 {
+    100% {
+      left: 75%;
+    }
+  }
+}
+@include lg {
+  @keyframes slide1 {
+    100% {
+      left: 10%;
+    }
+  }
+  @keyframes slide2 {
+    100% {
+      left: 33%;
+    }
+  }
+  @keyframes slide3 {
+    100% {
+      left: 56%;
+    }
+  }
+  @keyframes slide4 {
+    100% {
+      left: 80%;
+    }
+  }
+}
+
+@include sm {
+  @keyframes slide1 {
+    100% {
+      left: 0;
+    }
+  }
+  @keyframes slide2 {
+    100% {
+      left: 25%;
+    }
+  }
+  @keyframes slide3 {
+    100% {
+      left: 50%;
+    }
+  }
+  @keyframes slide4 {
+    100% {
+      left: 75%;
+    }
   }
 }
 
 //Section projects
+
 .projects {
   background-color: var(--background-light);
   h1 {
-    width: 75%;
     margin: auto;
     padding: 40px 20px 0 20px;
+    width: 75%;
   }
 }
 
@@ -223,58 +348,100 @@ html[data-useragent*="Trident"] svg.paralax polyline {
 
 .project-container {
   background-color: var(--background-dark);
+  border: inset 3px var(--color1);
   border-radius: 5px;
   display: flex;
+  height: 200px;
   margin: 30px;
   padding: 15px;
-  width: 30%;
-  border: inset 3px var(--color1);
-  height: 200px;
   transition: 0.5s ease;
+  width: 35%;
+  @include lg {
+    max-height: 250px;
+    width: 40%;
+    margin: 10px;
+    padding: 10px;
+  }
+  @include sm {
+    max-height: 200px;
+    width: 100%;
+    margin: 5px;
+    padding: 10px;
+  }
 }
 
 .project-image {
+  backface-visibility: hidden;
+  border-radius: 3px;
+  display: block;
   max-height: 150px;
   max-width: 150px;
   margin: auto;
   opacity: 1;
-  display: block;
   transition: 1s ease;
-  backface-visibility: hidden;
+  @include lg {
+    max-width: 100px;
+  }
+  @include sm {
+    max-width: 80px;
+    max-height: 80px;
+  }
 }
 
 .middle {
-  transition: 0.5s ease;
-  opacity: 0;
   background-color: black;
-  position: absolute;
-  margin: -15px;
-  width: calc(30% + 15px);
-  height: 230px;
-  z-index: 2;
   border-radius: 5px;
+  height: 230px;
+  margin: -15px;
+  opacity: 0;
+  position: absolute;
   text-align: center;
+  transition: 0.5s ease;
+  width: calc(35% + 10px);
+  z-index: 1;
+  @include lg {
+    max-height: 220px;
+    width: 40%;
+    margin: -10px;
+  }
+  @include sm {
+    flex-wrap: wrap;
+    align-self: flex-end;
+    opacity: 1;
+    height: auto;
+    width: 70%;
+    margin: 0;
+    background-color: var(--background-dark);
+  }
 }
-
-.project-container:hover {
-  opacity: 0.5;
-  
+@include lgxl {
+  .project-container:hover {
+    opacity: 0.5;
+  }
 }
-
-.project-container:hover .middle {
-  opacity: 0.8;
-  background-color: black;
+@include lgxl {
+  .project-container:hover .middle {
+    background-color: black;
+    opacity: 0.8;
+  }
 }
 
 .project-container i {
   color: var(--color1);
-  margin: 75px 20px;
   font-size: 80px;
+  margin: 75px 20px;
+  @include sm {
+    font-size: 40px;
+    margin: 10px;
+  }
 }
 .project-description {
+  margin: auto 15px;
   padding: 10px;
   width: 100%;
-  margin: auto 15px;
+  @include sm{
+   margin: 10px auto;
+  }
 }
 
 //Section about
@@ -284,6 +451,12 @@ html[data-useragent*="Trident"] svg.paralax polyline {
   margin: 30px auto 0;
   padding: 20px;
   width: 75%;
+  @include lg {
+    width: 80%;
+  }
+  @include sm {
+    width: 90%;
+  }
 }
 
 .desc {
@@ -295,34 +468,40 @@ html[data-useragent*="Trident"] svg.paralax polyline {
 
 //Section contact
 .contact {
+  align-content: center;
   display: flex;
   justify-content: space-between;
-  align-content: center;
-  padding: 30px;
   margin: auto;
+  padding: 30px;
   width: 50%;
-
+  @include sm{
+    width: 80%;
+  }
   a {
-    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 100px;
+    display: inline-flex;
     height: 100px;
+    justify-content: center;
     text-decoration: none;
-
+    width: 100px;
   }
 
   i {
+    font-size: 35px;
     height: 100px;
-    font-size: 45px;
-    transition: font-size 2s, transform 2s;
+    transition: ease-out, font-size 2s, transform 2s;
+    @include sm {
+      font-size: 40px;
+      
+    }
   }
-
+@include lgxl{
   a:hover {
-      i{
-    font-size: 60px;
-    transform: rotate(720deg);}
-  }
+    i {
+      font-size: 60px;
+      transform: rotate(720deg);
+    }
+  }}
 }
 
 .fa-envelope {
